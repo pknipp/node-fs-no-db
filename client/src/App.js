@@ -1,54 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Cookies from "js-cookie";
-import Login from './components/admin/Login';
-import Signup from './components/admin/Signup';
-import Container from "./components/Container";
-import AuthContext from './auth';
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => (
-    rest.needLogin === true ? <Redirect to='/login' /> : <Component {...props} />   )}
-  />
-)
+import Home from './components/Home';
 
 const App = () => {
   const [fetchWithCSRF] = useState(() => fetch);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true)
-  const authContextValue = {fetchWithCSRF, currentUser, setCurrentUser};
-
-  const loadUser = () => {
-    const authToken = Cookies.get("token");
-    if (authToken) {
-      try {
-        const payloadObj = JSON.parse(atob(authToken.split(".")[1]));
-        setCurrentUser(payloadObj.data);
-      } catch (e) {
-        Cookies.remove("token");
-      }
-    }
-    setLoading(false);
-  }
-
-  useEffect(loadUser, []);
 
   return (
-    <AuthContext.Provider value={authContextValue}>
-      {loading ?
-        <h1>Loading</h1>
-      :
-        <BrowserRouter>
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <PrivateRoute path="/"
-            // exact={true}
-            needLogin={!currentUser} component={Container} />
-          </Switch>
-        </BrowserRouter>
-      }
-    </AuthContext.Provider>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" component={Home} />
+        </Switch>
+      </BrowserRouter>
   );
 }
 export default App;
