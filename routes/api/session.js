@@ -1,8 +1,7 @@
-const express = require('express');
-const asyncHandler = require('express-async-handler');
+const router = require('express').Router();
 
-const router = express.Router();
-
-router.get('/', asyncHandler(async function (req, res, next) {res.json({message: "Hello world"});}));
+router.get('/', (req, res) => {
+  res.json({message: "Hello world"});
+});
 
 module.exports = router;
