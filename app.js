@@ -23,6 +23,7 @@ app.use(helmet({ hsts: false }));
 //     sameSite: process.env.NODE_ENV === 'production', httpOnly: true }}));
 
 app.use(routes);
+console.log(routes);
 
 // Serve React Application
 // This should come after routes, but before 404 and error handling.
